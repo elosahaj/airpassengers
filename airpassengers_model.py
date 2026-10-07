@@ -63,14 +63,14 @@ last_value = train["#Passengers"].iloc[-1]
 naive_forecast = [last_value]*len(test)
 
 
-# plt.figure(figsize=(12,6))
-# plt.plot(train.index, train["#Passengers"], label="Train")
-# plt.plot(test.index, test["#Passengers"], label="Actual")
-# plt.plot(test.index, naive_forecast, label="Naive forecast")
+plt.figure(figsize=(12,6))
+plt.plot(train.index, train["#Passengers"], label="Train")
+plt.plot(test.index, test["#Passengers"], label="Actual")
+plt.plot(test.index, naive_forecast, label="Naive forecast")
 
-# plt.legend()
-# plt.grid(True)
-# plt.show()
+plt.legend()
+plt.grid(True)
+plt.show()
 
 
 ### ### METRYKA ### ###
@@ -81,6 +81,38 @@ rmse = np.sqrt(mean_squared_error(test["#Passengers"], naive_forecast))
 
 mape = mean_absolute_percentage_error(test["#Passengers"], naive_forecast)
 
+print("Naive:")
 print(f"MAE: {mae:.2f}")
 print(f"RMSE: {rmse:.2f}")
 print(f"MAPE: {mape:.2f}")
+print()
+
+### ### MOVING AVERAGE FORECAST ### ###
+# uzywamy ostatnich 12 miesiecy poniewaz sezonowosc jest w skali rocznej
+
+moving_avg = train["#Passengers"].tail(12).mean()
+
+ma_forecast = [moving_avg] * len(test)
+
+plt.figure(figsize=(12,6))
+plt.plot(train.index, train["#Passengers"], label="Train")
+plt.plot(test.index, test["#Passengers"], label="Actual")
+plt.plot(test.index, ma_forecast, label="Moving Average forecast")
+
+plt.legend()
+plt.grid(True)
+plt.show()
+
+ma_mae = mean_absolute_error(test["#Passengers"], ma_forecast) 
+
+ma_rmse = np.sqrt(mean_squared_error(test["#Passengers"], ma_forecast))
+
+ma_mape = mean_absolute_percentage_error(test["#Passengers"], ma_forecast)
+
+print("Moving average:")
+print(f"MAE: {ma_mae:.2f}")
+print(f"RMSE: {ma_rmse:.2f}")
+print(f"MAPE: {ma_mape:.2f}")
+print()
+
+
