@@ -12,4 +12,22 @@ from sklearn.metrics import (
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.arima.model import ARIMA
 
-print('hello')
+#dane
+df = pd.read_csv("AirPassengers.csv")
+
+df["Month"] = pd.to_datetime(df["Month"])
+
+print(df.columns)
+
+df = df.set_index("Month")
+print(df.head())
+
+
+#wizualizacja
+plt.figure(figsize=(12,6))
+plt.plot(df["#Passengers"])
+plt.title("Air passengers")
+plt.ylabel("Passengers")
+plt.grid(True)
+plt.show()
+
