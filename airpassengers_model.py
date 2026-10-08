@@ -148,3 +148,34 @@ print(f"RMSE: {hw_rmse:.2f}")
 print(f"MAPE: {hw_mape:.2f}")
 print()
 
+
+
+### ### ARIMA ### ###
+
+arima_model = ARIMA(
+    train["#Passengers"],
+    order=(1,1,1)
+).fit()
+
+arima_forecast = arima_model.forecast(len(test))
+
+plt.figure(figsize=(12,6))
+plt.plot(train.index, train["#Passengers"], label="Train")
+plt.plot(test.index, test["#Passengers"], label="Actual")
+plt.plot(test.index, arima_forecast, label="ARIMA forecast")
+
+plt.legend()
+plt.grid(True)
+plt.show()
+
+arima_mae = mean_absolute_error(test["#Passengers"], arima_forecast) 
+
+arima_rmse = np.sqrt(mean_squared_error(test["#Passengers"], arima_forecast))
+
+arima_mape = mean_absolute_percentage_error(test["#Passengers"], arima_forecast)
+
+print("ARIMA:")
+print(f"MAE: {arima_mae:.2f}")
+print(f"RMSE: {arima_rmse:.2f}")
+print(f"MAPE: {arima_mape:.2f}")
+print()
